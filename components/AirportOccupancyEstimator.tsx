@@ -21,7 +21,7 @@ import { formatHour } from "@/utils/formatHour";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Bar, BarChart, Cell, ResponsiveContainer, XAxis } from "recharts";
+import { Bar, BarChart, Cell, XAxis, YAxis } from "recharts";
 
 // Mock API function
 const fetchAirportData = async (airportCode: string, date: Date) => {
@@ -163,13 +163,10 @@ export default function AirportOccupancyEstimator() {
               </div>
             ) : (
               occupancyData && (
-                <div
-                  className="w-full overflow-x-auto"
-                  style={{ scrollMarginInlineStart: "50%" }}
-                >
+                <div className="w-full overflow-x-auto">
                   <ChartContainer
                     config={chartConfig}
-                    className="min-h-[200px] w-full max-h-[400px] w-full overflow-x-auto min-w-[800px]"
+                    className="w-full min-w-[800px] max-h-[400px]"
                   >
                     <BarChart accessibilityLayer data={occupancyData}>
                       <Bar dataKey="occupancy" radius={4}>
