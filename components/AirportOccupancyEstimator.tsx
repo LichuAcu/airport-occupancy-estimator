@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { formatHour } from "@/utils/formatHour";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -64,6 +65,7 @@ export default function AirportOccupancyEstimator() {
   const [isLoading, setIsLoading] = useState(false);
   const [isToday, setIsToday] = useState(false);
   const [currentHour, setCurrentHour] = useState<number>(new Date().getHours());
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   useEffect(() => {
     setIsToday(new Date().toDateString() === date?.toDateString());
@@ -115,7 +117,7 @@ export default function AirportOccupancyEstimator() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-4 items-start">
-            <Popover>
+            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
               <PopoverTrigger asChild>
                 <button
                   className={cn(
@@ -131,7 +133,12 @@ export default function AirportOccupancyEstimator() {
                 <Calendar
                   mode="single"
                   selected={date}
-                  onSelect={(newDate) => newDate && setDate(newDate)}
+                  onSelect={(newDate) => {
+                    if (newDate) {
+                      setDate(newDate);
+                      setIsCalendarOpen(false);
+                    }
+                  }}
                   initialFocus
                 />
               </PopoverContent>
